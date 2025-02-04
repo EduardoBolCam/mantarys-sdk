@@ -1,0 +1,19 @@
+{
+    "name": "dev_dizs/mantarys-sdk",
+    "description": "Not oicial easy way to connect Laravel project with Mantarys SOAP Services.",
+    "type": "library",
+    "require": {
+        "econea/nusoap": "0.9.11"
+    },
+    "autoload": {
+        "psr-4": {
+            "DevDizs\\MantarysSdk\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "EduardoBolCam",
+            "email": "eduardo@blazecore.com"
+        }
+    ]
+}
