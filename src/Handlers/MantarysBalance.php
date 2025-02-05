@@ -3,29 +3,25 @@
 namespace DevDizs\MantarysSdk\Handlers;
 
 use DevDizs\MantarysSdk\Connection\SoapService;
+use DevDizs\MantarysSdk\Exceptions\BadResponseException;
 
-final class MantarysBalance
+final class MantarysBalance extends MantarysBase
 {
-    const CHECK_BALANCE_ACTION = 'Check_balance';
-
-    private $user;
-    private $password;
-
-    private $env = 'local';
+    const CHECK_BALANCE_ACTION = 'Check_Balance';
 
     /**
      * @param string user User Provided by MANTARYS
      * @param string password Password provided by MANTARYS
      */
-     public function __construct( string $user, string $password )
-     {
-         $this->user     = $user;
-         $this->password = $password;
+    public function __construct( string $user, string $password )
+    {
+        parent::__construct( $user, $password );
+    }
 
-        //  $config = new Config();
-        //  $this->env = $config->getConfig( 'env' );
-     }
-
+    /**
+     * Get client balance
+     * @return 
+     */
     public function getClientBalance()
     {
         $action = self::CHECK_BALANCE_ACTION;
@@ -35,14 +31,16 @@ final class MantarysBalance
             'Password' => $this->password,
         ];
 
-        $uri = 'http://wsrecargas.payapp.mx/tmpagoventaws/status/soap.php?wsdl';
-
-        if( $this->env !== 'production' ){
-            // Only for tests
-            $uri = 'http://ws_stage.cloud-services.mx:9192/service.asmx?WSDL';
-        }
+        $uri = 'http://ws_stage.cloud-services.mx:9192/service.asmx?WSDL';
 
         $client = new SoapService( $uri );
-        return $client->call( $action, $data );
+
+        $response = $client->call( $action, $data );
+
+        if( empty( $response ) || !isset( $response[ 'Check_BalanceResult' ] ) ){
+            throw new BadResponseException( 'No response available' );
+        }
+
+        return $client->sanitizeResponse( $response['Check_BalanceResult'] );
     }
 }

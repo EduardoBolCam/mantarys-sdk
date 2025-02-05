@@ -13,6 +13,8 @@ final class MantarysBalanceTest extends TestCase
         $mantarysBalance = new MantarysBalance( $this->validUserTest, $this->validPasswordTest );
         $response = $mantarysBalance->getClientBalance();
 
-        echo print_r( $response, true );
+        $this->assertIsArray( $response );
+        $this->assertArrayHasKey( 'Balance', $response );
+        $this->assertArrayHasKey( 'Confirmation', $response );
     }
 }
