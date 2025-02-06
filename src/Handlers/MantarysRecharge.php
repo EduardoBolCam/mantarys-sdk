@@ -20,6 +20,7 @@ final class MantarysRecharge extends MantarysBase
     {
         parent::__construct( $user, $password );
     }
+
     /**
      * Create, build and make the Mantarys recharge process
      * @param string $carrier Mantarys Carrier SKU 

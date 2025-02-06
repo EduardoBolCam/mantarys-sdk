@@ -1,7 +1,7 @@
 <?php declare(strict_types=1);
 
 use DevDizs\MantarysSdk\Exceptions\TimeoutResponseException;
-use DevDizs\MantarysSdk\ResponseContants;
+use DevDizs\MantarysSdk\MantarysResponseConstants;
 use DevDizs\MantarysSdk\Handlers\MantarysRecharge;
 use PHPUnit\Framework\TestCase;
 
@@ -20,62 +20,61 @@ final class MantarysRecargeTest extends TestCase
 
     public function testMakeRecharge(): void
     {
-        $mantarysBalance = new MantarysRecharge( $this->validUserTest, $this->validPasswordTest );
-        $response = $mantarysBalance->makeRecharge( $this->validCarrier, $this->validAmount, $this->validPhoneNumber );
+        $mantarysRecharge = new MantarysRecharge( $this->validUserTest, $this->validPasswordTest );
+        $response = $mantarysRecharge->makeRecharge( $this->validCarrier, $this->validAmount, $this->validPhoneNumber );
 
         $this->assertIsArray( $response );
         $this->assertArrayHasKey( 'Folio_Carrier', $response );
         $this->assertArrayHasKey( 'Confirmation', $response );
         $this->assertArrayHasKey( 'num_tries', $response );
-        $this->assertEquals( ResponseContants::SUCCESS_TRANSACTION, $response['Confirmation'] );
+        $this->assertEquals( MantarysResponseConstants::SUCCESS_TRANSACTION, $response['Confirmation'] );
         $this->assertEquals( 1, $response['num_tries'] );
     }
 
     public function testMakeRechargeMoreThanOneTries()
     {
-        $mantarysBalance = new MantarysRecharge( $this->validUserTest, $this->validPasswordTest );
-        $response = $mantarysBalance->makeRecharge( $this->validCarrier, $this->validAmount, $this->wait8secsPhone );
+        $mantarysRecharge = new MantarysRecharge( $this->validUserTest, $this->validPasswordTest );
+        $response = $mantarysRecharge->makeRecharge( $this->validCarrier, $this->validAmount, $this->wait8secsPhone );
 
         $this->assertIsArray( $response );
         $this->assertArrayHasKey( 'Folio_Carrier', $response );
         $this->assertArrayHasKey( 'Confirmation', $response );
         $this->assertArrayHasKey( 'num_tries', $response );
-        $this->assertEquals( ResponseContants::SUCCESS_TRANSACTION, $response['Confirmation'] );
+        $this->assertEquals( MantarysResponseConstants::SUCCESS_TRANSACTION, $response['Confirmation'] );
         $this->assertEquals( 4, $response['num_tries'] );
     }
 
     public function testNotValidRef(): void
     {
-        $mantarysBalance = new MantarysRecharge( $this->validUserTest, $this->validPasswordTest );
-        $response = $mantarysBalance->makeRecharge( $this->validCarrier, $this->validAmount, $this->notValidRef );
+        $mantarysRecharge = new MantarysRecharge( $this->validUserTest, $this->validPasswordTest );
+        $response = $mantarysRecharge->makeRecharge( $this->validCarrier, $this->validAmount, $this->notValidRef );
 
         $this->assertIsArray( $response );
         $this->assertArrayHasKey( 'Folio_Carrier', $response );
         $this->assertArrayHasKey( 'Confirmation', $response );
         $this->assertArrayHasKey( 'num_tries', $response );
-        $this->assertEquals( ResponseContants::NOT_VALID_REF, $response['Confirmation'] );
+        $this->assertEquals( MantarysResponseConstants::NOT_VALID_REF, $response['Confirmation'] );
         $this->assertEquals( 1, $response['num_tries'] );
     }
 
     public function testNotValidPhone(): void
     {
-        $mantarysBalance = new MantarysRecharge( $this->validUserTest, $this->validPasswordTest );
-        $response = $mantarysBalance->makeRecharge( $this->validCarrier, $this->validAmount, $this->notValidPhone );
+        $mantarysRecharge = new MantarysRecharge( $this->validUserTest, $this->validPasswordTest );
+        $response = $mantarysRecharge->makeRecharge( $this->validCarrier, $this->validAmount, $this->notValidPhone );
 
         $this->assertIsArray( $response );
         $this->assertArrayHasKey( 'Folio_Carrier', $response );
         $this->assertArrayHasKey( 'Confirmation', $response );
         $this->assertArrayHasKey( 'num_tries', $response );
-        $this->assertEquals( ResponseContants::NOT_VALID_PHONE, $response['Confirmation'] );
+        $this->assertEquals( MantarysResponseConstants::NOT_VALID_PHONE, $response['Confirmation'] );
         $this->assertEquals( 1, $response['num_tries'] );
     }
 
     public function testTimeoutRecharge(): void
     {
         $this->expectException( TimeoutResponseException::class );
-
-        $mantarysBalance = new MantarysRecharge( $this->validUserTest, $this->validPasswordTest );
-        $response = $mantarysBalance->makeRecharge( $this->validCarrier, $this->validAmount, $this->timeoutPhoneNumber );
+        $mantarysRecharge = new MantarysRecharge( $this->validUserTest, $this->validPasswordTest );
+        $mantarysRecharge->makeRecharge( $this->validCarrier, $this->validAmount, $this->timeoutPhoneNumber );
     }
 }
 

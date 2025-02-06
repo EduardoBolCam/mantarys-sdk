@@ -2,7 +2,7 @@
 
 namespace DevDizs\MantarysSdk;
 
-final class ResponseContants
+final class MantarysResponseConstants
 {
     const SUCCESS_TRANSACTION           = '00';
     const NOT_VALID_REF                 = '01';

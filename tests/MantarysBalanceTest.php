@@ -1,7 +1,7 @@
 <?php declare(strict_types=1);
 
 use DevDizs\MantarysSdk\Handlers\MantarysBalance;
-use DevDizs\MantarysSdk\ResponseContants;
+use DevDizs\MantarysSdk\MantarysResponseConstants;
 use PHPUnit\Framework\TestCase;
 
 final class MantarysBalanceTest extends TestCase
@@ -15,7 +15,7 @@ final class MantarysBalanceTest extends TestCase
         $response = $mantarysBalance->getClientBalance();
 
         $this->assertIsArray( $response );
-        $this->assertEquals( ResponseContants::SUCCESS_TRANSACTION, $response['Confirmation'] );
+        $this->assertEquals( MantarysResponseConstants::SUCCESS_TRANSACTION, $response['Confirmation'] );
         $this->assertArrayHasKey( 'Confirmation', $response );
         $this->assertArrayHasKey( 'Balance', $response );
     }
