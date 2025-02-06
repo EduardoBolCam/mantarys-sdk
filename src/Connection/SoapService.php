@@ -26,6 +26,7 @@ class SoapService
 
     public function call( $methodName, $params = [] )
     {
+        $params = ['jrquest' => json_encode( $params )];
         $result = $this->client->call( $methodName, $params );
 
         if( $this->client->fault ){
