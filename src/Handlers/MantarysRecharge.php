@@ -3,6 +3,7 @@
 namespace DevDizs\MantarysSdk\Handlers;
 
 use DevDizs\MantarysSdk\Connection\SoapService;
+use DevDizs\MantarysSdk\Exceptions\BadRechargeVerificationException;
 use DevDizs\MantarysSdk\Exceptions\BadResponseException;
 use DevDizs\MantarysSdk\Exceptions\TimeoutResponseException;
 
@@ -53,7 +54,7 @@ final class MantarysRecharge extends MantarysBase
         }
 
         // Response Confirmation must be 24 then we look throught 120 sec each 2 secs looking for a Confirmation !== 24
-        // I must break in the 30 try
+        // I must break in the 20 try
         $tries = 0;
         $responseFormated = $client->sanitizeResponse( $response['Request_TransactionResult'] );
         while( intval( $responseFormated['Confirmation'] ) === 24 ){
@@ -61,9 +62,15 @@ final class MantarysRecharge extends MantarysBase
                 throw new TimeoutResponseException( "Se intentó {$tries} veces y no cambió el status.", $folio );
                 break;
             }
-            $tries += 1;
+
             sleep( 2 );
-            $responseFormated = $this->verifyRecharge( $folio );
+
+            try{
+                $responseFormated = $this->verifyRecharge( $folio );
+            }catch( BadResponseException $e ){
+                throw new BadRechargeVerificationException( $e->getMessage(), $folio );
+            }
+            $tries += 1;
         }
 
         $responseFormated['num_tries'] = $tries;
