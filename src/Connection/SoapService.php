@@ -6,14 +6,22 @@ use DevDizs\MantarysSdk\Exceptions\BadResponseException;
 use DevDizs\MantarysSdk\Exceptions\ConnectionException;
 use DevDizs\MantarysSdk\Exceptions\ErrorResponseException;
 use DevDizs\MantarysSdk\Exceptions\TimeoutResponseException;
+use DevDizs\MantarysSdk\Handlers\Config;
 use nusoap_client;
 
 class SoapService
 {
     protected $client;
 
-    public function __construct( string $uri, int $timeout = 0, int $response_timeout = 30 )
+    public function __construct( int $timeout = 0, int $response_timeout = 30 )
     {
+        $config = new Config();
+        $uri = $config->getConfig( 'url' );
+
+        if( !strlen( $uri )){
+            throw new ConnectionException( 'Error building connection, no URL' );
+        }
+
         $this->client = new nusoap_client( $uri, true );
         $this->client->timeout = $timeout;
         $this->client->response_timeout = $response_timeout;

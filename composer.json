@@ -20,5 +20,12 @@
     ],
     "require-dev": {
         "phpunit/phpunit": "9"
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "DevDizs\\MantarysSdk\\MantarysServiceProvider"
+            ]
+        }
     }
 }

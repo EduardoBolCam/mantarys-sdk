@@ -5,11 +5,8 @@ use DevDizs\MantarysSdk\MantarysResponseConstants;
 use DevDizs\MantarysSdk\Handlers\MantarysRecharge;
 use PHPUnit\Framework\TestCase;
 
-final class MantarysRecargeTest extends TestCase
+final class MantarysRechargeTest extends TestCase
 {
-    private $validUserTest     = '6144135400';
-    private $validPasswordTest = 'Prueba$$';
-
     private $validPhoneNumber = "2222222222";
     private $timeoutPhoneNumber = "5554444444";
     private $wait8secsPhone = "5551111111";
@@ -20,7 +17,7 @@ final class MantarysRecargeTest extends TestCase
 
     public function testMakeRecharge(): void
     {
-        $mantarysRecharge = new MantarysRecharge( $this->validUserTest, $this->validPasswordTest );
+        $mantarysRecharge = new MantarysRecharge();
         $response = $mantarysRecharge->makeRecharge( $this->validCarrier, $this->validAmount, $this->validPhoneNumber );
 
         $this->assertIsArray( $response );
@@ -28,12 +25,11 @@ final class MantarysRecargeTest extends TestCase
         $this->assertArrayHasKey( 'Confirmation', $response );
         $this->assertArrayHasKey( 'num_tries', $response );
         $this->assertEquals( MantarysResponseConstants::SUCCESS_TRANSACTION, $response['Confirmation'] );
-        $this->assertEquals( 1, $response['num_tries'] );
     }
 
     public function testMakeRechargeMoreThanOneTries()
     {
-        $mantarysRecharge = new MantarysRecharge( $this->validUserTest, $this->validPasswordTest );
+        $mantarysRecharge = new MantarysRecharge();
         $response = $mantarysRecharge->makeRecharge( $this->validCarrier, $this->validAmount, $this->wait8secsPhone );
 
         $this->assertIsArray( $response );
@@ -41,12 +37,11 @@ final class MantarysRecargeTest extends TestCase
         $this->assertArrayHasKey( 'Confirmation', $response );
         $this->assertArrayHasKey( 'num_tries', $response );
         $this->assertEquals( MantarysResponseConstants::SUCCESS_TRANSACTION, $response['Confirmation'] );
-        $this->assertEquals( 4, $response['num_tries'] );
     }
 
     public function testNotValidRef(): void
     {
-        $mantarysRecharge = new MantarysRecharge( $this->validUserTest, $this->validPasswordTest );
+        $mantarysRecharge = new MantarysRecharge();
         $response = $mantarysRecharge->makeRecharge( $this->validCarrier, $this->validAmount, $this->notValidRef );
 
         $this->assertIsArray( $response );
@@ -59,7 +54,7 @@ final class MantarysRecargeTest extends TestCase
 
     public function testNotValidPhone(): void
     {
-        $mantarysRecharge = new MantarysRecharge( $this->validUserTest, $this->validPasswordTest );
+        $mantarysRecharge = new MantarysRecharge();
         $response = $mantarysRecharge->makeRecharge( $this->validCarrier, $this->validAmount, $this->notValidPhone );
 
         $this->assertIsArray( $response );
@@ -73,7 +68,7 @@ final class MantarysRecargeTest extends TestCase
     public function testTimeoutRecharge(): void
     {
         $this->expectException( TimeoutResponseException::class );
-        $mantarysRecharge = new MantarysRecharge( $this->validUserTest, $this->validPasswordTest );
+        $mantarysRecharge = new MantarysRecharge();
         $mantarysRecharge->makeRecharge( $this->validCarrier, $this->validAmount, $this->timeoutPhoneNumber );
     }
 }

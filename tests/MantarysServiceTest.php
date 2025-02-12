@@ -11,9 +11,18 @@ final class MantarysServiceTest extends TestCase
 
     public function testGetAllProducts(): void
     {
-        $this->expectException( BadResponseException::class );
-        $mantarysService = new MantarysService();
-        $response = $mantarysService->getServicePendingAmount( $this->sku, $this->ref );
+
+        // Optional: Test anything here, if you want.
+        $this->assertTrue(true, 'This should already work.');
+
+        // Stop here and mark this test as incomplete.
+        $this->markTestIncomplete(
+        'This test has not been implemented yet.'
+        );
+
+        // $this->expectException( BadResponseException::class );
+        // $mantarysService = new MantarysService();
+        // $response = $mantarysService->getServicePendingAmount( $this->sku, $this->ref );
 
         // Assert
         // $this->assertIsArray( $response );

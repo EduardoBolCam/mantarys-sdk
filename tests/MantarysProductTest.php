@@ -5,12 +5,10 @@ use PHPUnit\Framework\TestCase;
 
 final class MantarysProductTest extends TestCase
 {
-    private $validUserTest     = '6144135400';
-    private $validPasswordTest = 'Prueba$$';
 
     public function testGetAllProducts(): void
     {
-        $mantarysProduct = new MantarysProduct( $this->validUserTest, $this->validPasswordTest );
+        $mantarysProduct = new MantarysProduct();
         $response = $mantarysProduct->getProducts();
 
         $this->assertIsArray( $response );

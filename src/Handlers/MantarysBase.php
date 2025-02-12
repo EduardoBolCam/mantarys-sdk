@@ -11,10 +11,20 @@ class MantarysBase
      * @param string user User Provided by MANTARYS
      * @param string password Password provided by MANTARYS
      */
-    protected function __construct( string $user, string $password )
+    protected function __construct( string $user = null, string $password = null )
     {
-        $this->user     = $user;
+        $config = new Config();
+
+        $this->user = $user;
         $this->password = $password;
+
+        if( is_null( $this->user ) ){
+            $this->user = $config->getConfig( 'user' );
+        }
+
+        if( is_null( $this->password ) ){
+            $this->password = $config->getConfig( 'password' );
+        }
     }
 
     /**

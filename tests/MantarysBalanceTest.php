@@ -6,12 +6,10 @@ use PHPUnit\Framework\TestCase;
 
 final class MantarysBalanceTest extends TestCase
 {
-    private $validUserTest     = '6144135400';
-    private $validPasswordTest = 'Prueba$$';
 
     public function testClientBalance(): void
     {
-        $mantarysBalance = new MantarysBalance( $this->validUserTest, $this->validPasswordTest );
+        $mantarysBalance = new MantarysBalance();
         $response = $mantarysBalance->getClientBalance();
 
         $this->assertIsArray( $response );

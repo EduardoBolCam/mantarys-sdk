@@ -9,13 +9,9 @@ final class MantarysService extends MantarysBase
 {
     const SERVICE_PENDING_AMOUNT = 'check_service_pending_amount';
 
-    /**
-     * @param string user User Provided by MANTARYS
-     * @param string password Password provided by MANTARYS
-     */
     public function __construct()
     {
-        parent::__construct( '', '' );
+        //
     }
 
     public function getServicePendingAmount( string $product, string $ref )
@@ -27,9 +23,7 @@ final class MantarysService extends MantarysBase
             'referencia'   => $ref,
         ];
 
-        $uri = 'http://ws_stage.cloud-services.mx:9192/service.asmx?WSDL';
-
-        $client = new SoapService( $uri );
+        $client = new SoapService();
 
         $response = $client->call( $action, $data );
 

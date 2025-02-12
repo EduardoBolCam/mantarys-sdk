@@ -13,7 +13,7 @@ final class MantarysProduct extends MantarysBase
      * @param string user User Provided by MANTARYS
      * @param string password Password provided by MANTARYS
      */
-    public function __construct( string $user, string $password )
+    public function __construct( string $user = null, string $password = null )
     {
         parent::__construct( $user, $password );
     }
@@ -27,9 +27,7 @@ final class MantarysProduct extends MantarysBase
             'Password'=> $this->password,
         ];
 
-        $uri = 'http://ws_stage.cloud-services.mx:9192/service.asmx?WSDL';
-
-        $client = new SoapService( $uri );
+        $client = new SoapService();
 
         $response = $client->call( $action, $data );
 
