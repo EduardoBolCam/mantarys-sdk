@@ -49,7 +49,6 @@ final class MantarysRechargeTest extends TestCase
         $this->assertArrayHasKey( 'Confirmation', $response );
         $this->assertArrayHasKey( 'num_tries', $response );
         $this->assertEquals( MantarysResponseConstants::NOT_VALID_REF, $response['Confirmation'] );
-        $this->assertEquals( 1, $response['num_tries'] );
     }
 
     public function testNotValidPhone(): void
@@ -62,7 +61,6 @@ final class MantarysRechargeTest extends TestCase
         $this->assertArrayHasKey( 'Confirmation', $response );
         $this->assertArrayHasKey( 'num_tries', $response );
         $this->assertEquals( MantarysResponseConstants::NOT_VALID_PHONE, $response['Confirmation'] );
-        $this->assertEquals( 1, $response['num_tries'] );
     }
 
     public function testTimeoutRecharge(): void

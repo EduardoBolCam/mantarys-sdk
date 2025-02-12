@@ -14,6 +14,12 @@ To install this library use Composer.
   composer require dev_dizs/mantarys-sdk
 ```
 
+## Publishing Configuration
+To publish the configuration file, run the following command:
+```bash
+php artisan vendor:publish --tag=mantarys-config
+```
+
 ## Authors
 
 - [@EduardoBolCam](https://github.com/EduardoBolCam)
