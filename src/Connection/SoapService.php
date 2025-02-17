@@ -13,7 +13,7 @@ class SoapService
 {
     protected $client;
 
-    public function __construct( int $timeout = 0, int $response_timeout = 30 )
+    public function __construct()
     {
         $config = new Config();
         $uri = $config->getConfig( 'url' );
@@ -23,8 +23,8 @@ class SoapService
         }
 
         $this->client = new nusoap_client( $uri, true );
-        $this->client->timeout = $timeout;
-        $this->client->response_timeout = $response_timeout;
+        $this->client->timeout = 120;
+        $this->client->response_timeout = 120;
 
         $error = $this->client->getError();
         if( $error ){

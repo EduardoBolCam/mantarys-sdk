@@ -36,7 +36,7 @@ class MantarysBase
         $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
 
         // Initialize an empty string to hold the generated folio
-        $folio = '';
+        $folio = '10008';
 
         // Loop to generate a random folio of 20 chars
         for ($i = 0; $i < 20; $i++) {
