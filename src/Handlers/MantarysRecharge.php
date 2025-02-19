@@ -59,22 +59,23 @@ final class MantarysRecharge extends MantarysBase
         // Response Confirmation must be 24 then we look throught 120 sec each 2 secs looking for a Confirmation !== 24
         $responseFormated = $client->sanitizeResponse( $response['Request_TransactionResult'] );
         while( intval( $responseFormated['Confirmation'] ) === 24 ){
+
+            if( $tries === $limit ){
+                throw new TimeoutResponseException( "Se intentó {$tries} veces y no cambió el status.", $folio );
+                break;
+            }
+
             try{
                 $responseFormated = $this->verifyRecharge( $folio );
                 $tries += 1;
             }catch( ErrorResponseException $e ){
+                $tries += 1;
                 if( $tries === $limit ){
                     throw new BadRechargeVerificationException( $e->getMessage(), $folio );
                     break;
                 }
-                $tries += 1;
             }catch( BadResponseException $e ){
                 throw new BadRechargeVerificationException( $e->getMessage(), $folio );
-                break;
-            }
-
-            if( $tries === $limit ){
-                throw new TimeoutResponseException( "Se intentó {$tries} veces y no cambió el status.", $folio );
                 break;
             }
 
